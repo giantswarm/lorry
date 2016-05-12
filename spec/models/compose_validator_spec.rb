@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ComposeValidator do
+describe ComposeV1Validator do
 
   describe '#validate_hook' do
 

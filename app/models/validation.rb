@@ -5,7 +5,13 @@ module Lorry
 
       def initialize(document)
         @document = document
-        validator = ComposeValidator.new
+
+        case detect_version
+        when :v1
+          validator = ComposeV1Validator.new
+        when :v2
+          validator = ComposeV2Validator.new
+        end
 
         if yaml
           validator.services = yaml.keys if yaml.respond_to?(:keys)

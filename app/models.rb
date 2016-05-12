@@ -1,6 +1,7 @@
 module Lorry
   module Models
-    autoload :ComposeValidator, 'app/models/compose_validator'
+    autoload :ComposeV1Validator, 'app/models/compose_v1_validator'
+    autoload :ComposeV2Validator, 'app/models/compose_v2_validator'
     autoload :Validation, 'app/models/validation'
     autoload :Gistable,   'app/models/gistable'
     autoload :Document,   'app/models/document'

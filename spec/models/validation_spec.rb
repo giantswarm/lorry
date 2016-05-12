@@ -17,7 +17,7 @@ describe Validation do
   let(:document) { "" }
 
   before do
-    allow(ComposeValidator).to receive(:new).and_return(validator)
+    allow(ComposeV1Validator).to receive(:new).and_return(validator)
     allow(validator).to receive(:services=).and_return(true)
     allow(validator).to receive(:parse)
     allow(validator).to receive(:rule)

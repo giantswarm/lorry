@@ -1,12 +1,12 @@
 module Lorry
   module Models
-    class ComposeValidator < Kwalify::Validator
+    class ComposeV2Validator < Kwalify::Validator
 
       attr_accessor :services
       attr_reader :schema
 
       def initialize
-        @schema = YAML.load_file(File.expand_path('schema.yml'))
+        @schema = YAML.load_file(File.expand_path('schema_v2.yml'))
         super @schema
       end
 
