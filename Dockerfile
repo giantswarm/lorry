@@ -8,6 +8,6 @@ RUN gem install bundler
 
 ADD . /temp
 WORKDIR /temp
-RUN bundle install --without development test
+RUN bundle install
 
 CMD ["bundle","exec","rackup","-o","0.0.0.0"]
