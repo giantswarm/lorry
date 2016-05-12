@@ -6,8 +6,12 @@ RUN apk update && apk add ruby-dev=2.1.7-r0 ca-certificates
 RUN echo 'install: --no-document' >> /root/.gemrc
 RUN gem install bundler
 
-ADD . /temp
-WORKDIR /temp
+COPY Gemfile* /tmp/
+WORKDIR /tmp
 RUN bundle install
+
+RUN mkdir /app
+WORKDIR /app
+ADD . /app
 
 CMD ["bundle","exec","rackup","-o","0.0.0.0"]
