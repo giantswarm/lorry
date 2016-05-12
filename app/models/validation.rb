@@ -18,7 +18,7 @@ module Lorry
       end
 
       def detect_version
-        if yaml && yaml.fetch("version", nil) == "2"
+        if yaml && yaml.is_a?(Hash) && yaml.fetch("version", nil) == "2"
           :v2
         else
           :v1

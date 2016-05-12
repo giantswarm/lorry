@@ -22,7 +22,6 @@ describe Validation do
     allow(validator).to receive(:parse)
     allow(validator).to receive(:rule)
     allow(validator).to receive(:_validate)
-    # allow(YAML).to receive(:load).and_return(double(keys:[]))
   end
 
   describe '#detect_version' do
@@ -39,6 +38,14 @@ describe Validation do
 
       it('returns v2') do
         expect(subject.detect_version).to equal(:v2)
+      end
+    end
+
+    context('invalid document') do
+      let(:document) { "foo" }
+
+      it('returns v2') do
+        expect(subject.detect_version).to equal(:v1)
       end
     end
   end
