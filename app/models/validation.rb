@@ -1,16 +1,32 @@
 module Lorry
   module Models
     class Validation
+      attr_accessor :document
 
       def initialize(document)
+        @document = document
         validator = ComposeValidator.new
-        if yaml = YAML.load(document)
+
+        if yaml
           validator.services = yaml.keys if yaml.respond_to?(:keys)
         end
+
         @parser = Kwalify::Yaml::Parser.new(validator)
         @parser.parse(document) if document
       rescue Kwalify::SyntaxError => e
         raise ArgumentError.new(e.message)
+      end
+
+      def detect_version
+        if yaml && yaml.fetch("version", nil) == "2"
+          :v2
+        else
+          :v1
+        end
+      end
+
+      def yaml
+        YAML.load(document)
       end
 
       def errors

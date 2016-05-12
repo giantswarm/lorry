@@ -1,19 +1,46 @@
 require 'spec_helper'
 
 describe Validation do
+  subject do
+    Validation.new(document)
+  end
+
   let(:parser_with_errors) do
     double('parser',
            parse: true,
            errors: [Kwalify::ValidationError.new('error'),
                     Lorry::Errors::ComposeValidationWarning.new('warning')])
   end
+
   let(:parser_without_errors) { double('parser', errors: [], warnings: []) }
   let(:validator) { double('validator') }
+  let(:document) { "" }
 
   before do
     allow(ComposeValidator).to receive(:new).and_return(validator)
     allow(validator).to receive(:services=).and_return(true)
-    allow(YAML).to receive(:load).and_return(double(keys:[]))
+    allow(validator).to receive(:parse)
+    allow(validator).to receive(:rule)
+    allow(validator).to receive(:_validate)
+    # allow(YAML).to receive(:load).and_return(double(keys:[]))
+  end
+
+  describe '#detect_version' do
+    context('v1 document') do
+      let(:document) { "" }
+
+      it('returns v1') do
+        expect(subject.detect_version).to equal(:v1)
+      end
+    end
+
+    context('v2 document') do
+      let(:document) { "version: '2'" }
+
+      it('returns v2') do
+        expect(subject.detect_version).to equal(:v2)
+      end
+    end
   end
 
   describe '#errors' do
@@ -21,8 +48,6 @@ describe Validation do
       before do
         allow(Kwalify::Yaml::Parser).to receive(:new).and_return(parser_with_errors)
       end
-
-      subject { Lorry::Models::Validation.new(nil) }
 
       it('returns an array') do
         expect(subject.errors).to be_an(Array)
@@ -39,8 +64,6 @@ describe Validation do
       before do
         allow(Kwalify::Yaml::Parser).to receive(:new).and_return(parser_with_errors)
       end
-
-      subject { Lorry::Models::Validation.new(nil) }
 
       it('returns an array') do
         expect(subject.warnings).to be_an(Array)
