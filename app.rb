@@ -12,6 +12,8 @@ require 'app/errors'
 require 'app/models'
 require 'app/routes'
 
+SafeYAML::OPTIONS[:default_mode] = :safe
+
 module Lorry
   class App < Sinatra::Application
     configure do
